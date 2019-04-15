@@ -1,17 +1,46 @@
 package Planetes;
 
-import Dechets.Dechet;
+import Dechets.*;
 
-public class Planete {
+public abstract class Planete {
 
-    private int[] ChancesDechets; //0 = plutonium 1 = thulium 2 = gadolium 3 = terbium 4 = neptunium
+    private float[] chancesDechets; //0 = plutonium 1 = thulium 2 = gadolium 3 = terbium 4 = neptunium
 
-    public Planete(int[] chancesDechets) {
-        ChancesDechets = chancesDechets;
+    public Planete (float[] chancesDechets) {
+        chancesDechets = chancesDechets;
     }
 
     public Dechet charge(){
 
-        return null;
+        //on roule un dé pour savoir quel type de déchet sera récolté par le vaisseau
+        double roll = Math.random();
+
+        if (roll <= chancesDechets[0]) {
+
+            return new Plutonium();
+
+        } else if (roll < chancesDechets[1]) {
+
+            return new Thulium();
+
+        } else if (roll < chancesDechets[2]) {
+
+            return new Gadolinium();
+
+        } else if (roll < chancesDechets[3]) {
+
+            return new Terbium();
+
+        } else if (roll < chancesDechets[4]) {
+
+            return new Neptunium();
+
+        }
+
     }
+
+    public float[] getChancesDechets() {
+        return chancesDechets;
+    }
+
 }
