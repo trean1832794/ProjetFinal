@@ -35,6 +35,10 @@ public abstract class Planete {
 
             return new Neptunium();
 
+        } else {
+
+            return null;
+
         }
 
     }
