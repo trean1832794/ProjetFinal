@@ -10,6 +10,7 @@ import Dechets.*;
 
 public class CentreDeTri {
     private int limitePiles = 50;
+    private int maxAttente;
     private CentreDeTri nextCentre;
     private Queue<Vaisseau> vaisseauxAttente = new LinkedList<>();
     private Stack<Plutonium> plutonium = new Stack<Plutonium>();
@@ -18,8 +19,14 @@ public class CentreDeTri {
     private Stack<Terbium> terbium = new Stack<Terbium>();
     private Stack<Neptunium> neptunium = new Stack<Neptunium>();
 
+    public CentreDeTri (int maxAttente){
+        this.maxAttente = maxAttente;
+    }
 
     public void mettreAttente(Vaisseau vaisseau){
+        if(vaisseauxAttente.size() == maxAttente){
+
+        }
         vaisseauxAttente.add(vaisseau);
     }
 
