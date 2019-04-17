@@ -45,11 +45,14 @@ public class Main {
         System.out.println("Combien de centres de tri voulez-vous? : ");
         centresDeTris = new CentreDeTri[demanderTaille()];
 
-        centresDeTris[centresDeTris.length-1] = new CentreDeTri();
+        //calcul de la limite de vaisseaux en attente par centre de tri
+        int limiteAttente = Math.round((vaisseaux.length/centresDeTris.length))+1;
+
+        centresDeTris[centresDeTris.length-1] = new CentreDeTri(limiteAttente);
         for (int i = centresDeTris.length-2; i > 0; i++) {
 
 
-            centresDeTris[i] = new CentreDeTri();
+            centresDeTris[i] = new CentreDeTri(limiteAttente);
             centresDeTris[i].setNextCentre(centresDeTris[i+1]);
 
         }
