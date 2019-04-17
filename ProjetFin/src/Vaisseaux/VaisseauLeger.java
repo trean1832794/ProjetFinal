@@ -1,11 +1,12 @@
 package Vaisseaux;
 
-import Dechets.Dechet;
+import CentresDeTri.CentreDeTri;
 
 public class VaisseauLeger extends Vaisseau{
 
     public VaisseauLeger() {
 
         super(10);
+
     }
 }

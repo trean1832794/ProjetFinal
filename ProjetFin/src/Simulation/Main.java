@@ -69,7 +69,12 @@ public class Main {
         }
 
         //début de la simulation
+        for (Vaisseau vaisseau : vaisseaux) {
 
+            vaisseau.changerEmplacement(centresDeTris[0]);
+            vaisseau.charge(planetes[(int)(Math.random()*planetes.length)]);
+
+        }
 
 
     }
