@@ -12,6 +12,7 @@ public class CentreDeTri {
     private int limitePiles = 50;
     private int maxAttente;
     private CentreDeTri nextCentre;
+    private CentreDeTri previousCentre;
     private Queue<Vaisseau> vaisseauxAttente = new LinkedList<>();
     private Stack<Plutonium> plutonium = new Stack<Plutonium>();
     private Stack<Thulium> thulium = new Stack<Thulium>();
@@ -25,7 +26,7 @@ public class CentreDeTri {
 
     public void mettreAttente(Vaisseau vaisseau){
         if(vaisseauxAttente.size() == maxAttente){
-
+            attentePleine(vaisseauxAttente.poll());
         }
         vaisseauxAttente.add(vaisseau);
     }
@@ -35,6 +36,12 @@ public class CentreDeTri {
             vaisseau.changerEmplacement(nextCentre);
             vaisseau.decharge();
 
+    }
+
+    public void attentePleine(Vaisseau vaisseau){
+        if(plutonium.size() + thulium.size() + gadolinium.size() + terbium.size() + neptunium.size() == 0){
+
+        }
     }
 
     public void dechargerVaisseau(Vaisseau vaisseau) {
@@ -151,5 +158,13 @@ public class CentreDeTri {
 
     public void setNextCentre(CentreDeTri nextCentre) {
         this.nextCentre = nextCentre;
+    }
+
+    public CentreDeTri getPreviousCentre() {
+        return previousCentre;
+    }
+
+    public void setPreviousCentre(CentreDeTri previousCentre) {
+        this.previousCentre = previousCentre;
     }
 }
