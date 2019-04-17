@@ -2,9 +2,11 @@ package Vaisseaux;
 
 import Dechets.*;
 import CentresDeTri.CentreDeTri;
+import Planetes.Planete;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Stack;
 
 public abstract class Vaisseau {
     private ArrayList<Dechet> dechets = new ArrayList<>();
@@ -17,10 +19,41 @@ public abstract class Vaisseau {
 
     }
 
+    //recharge à partir de l'emplacement
+    public  void charge(Stack<Dechet> dechets){
 
-    public  void charge(){
+        this.dechets.clear();
+        int size = dechets.size();
+        for (int i = 0; i < size; i++) {
+
+            if (this.dechets.size() < limiteDechets) {
+
+                this.dechets.add(dechets.pop());
+
+            } else {
+
+                break;
+
+            }
+        }
 
 
+
+    }
+
+    public void charge (Planete planete) {
+
+        for (int i = 0; i < limiteDechets; i++) {
+
+            dechets.add(planete.charge());
+
+        }
+
+    }
+
+    public void changerEmplacement (CentreDeTri nouvelEmplacement) {
+
+        this.emplacement = nouvelEmplacement;
 
     }
 
@@ -45,7 +78,4 @@ public abstract class Vaisseau {
         return emplacement;
     }
 
-    public void setEmplacement(CentreDeTri emplacement) {
-        this.emplacement = emplacement;
-    }
 }
