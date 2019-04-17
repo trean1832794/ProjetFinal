@@ -74,6 +74,12 @@ public abstract class Vaisseau {
         return dechets;
     }
 
+    public void setDechets(ArrayList<Dechet> dechets) {
+
+        this.dechets = dechets;
+
+    }
+
     public CentreDeTri getEmplacement() {
         return emplacement;
     }
