@@ -7,6 +7,7 @@ import Planetes.Planete;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
+import Simulation.Main;
 
 public abstract class Vaisseau {
     private ArrayList<Dechet> dechets = new ArrayList<>();

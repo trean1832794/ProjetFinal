@@ -1,6 +1,6 @@
 package Vaisseaux;
 
-import Dechets.Dechet;
+import CentresDeTri.CentreDeTri;
 
 public class VaisseauLourd extends Vaisseau {
 
