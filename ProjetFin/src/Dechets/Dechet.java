@@ -1,6 +1,6 @@
 package Dechets;
 
-public abstract class Dechet {
+public abstract class Dechet implements Comparable<Dechet> {
 
         private String nom;
         private float masseVolumique;
@@ -16,6 +16,12 @@ public abstract class Dechet {
 
     public String getNom() {
         return nom;
+    }
+
+    public int compareTo (Dechet o) {
+
+            return nom.compareTo(o.nom);
+
     }
 
     public void setNom(String nom) {

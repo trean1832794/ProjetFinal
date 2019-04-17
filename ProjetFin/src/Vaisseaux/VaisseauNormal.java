@@ -5,6 +5,6 @@ import Dechets.Dechet;
 public class VaisseauNormal extends Vaisseau {
 
     public VaisseauNormal() {
-        super(new Dechet[20]);
+        super(20);
     }
 }

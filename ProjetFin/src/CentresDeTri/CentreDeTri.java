@@ -24,6 +24,17 @@ public class CentreDeTri {
         vaisseauxAttente.poll();
     }
 
+    public void dechargerVaisseau(Vaisseau vaisseau) {
+
+        for (Dechet dechet : vaisseau.getDechets()) {
+
+
+
+        }
+
+    }
+
+
     public int getLimitePiles() {
         return limitePiles;
     }

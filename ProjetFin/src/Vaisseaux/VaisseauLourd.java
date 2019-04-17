@@ -5,6 +5,6 @@ import Dechets.Dechet;
 public class VaisseauLourd extends Vaisseau {
 
     public VaisseauLourd() {
-        super(new Dechet[30]);
+        super(30);
     }
 }

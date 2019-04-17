@@ -6,6 +6,6 @@ public class VaisseauLeger extends Vaisseau{
 
     public VaisseauLeger() {
 
-        super(new Dechet[10]);
+        super(10);
     }
 }
