@@ -1,5 +1,5 @@
 import CentresDeTri.CentreDeTri;
-import Planetes.Planete;
+import Planetes.*;
 import Vaisseaux.Vaisseau;
 import Vaisseaux.VaisseauLeger;
 import Vaisseaux.VaisseauLourd;
@@ -11,11 +11,12 @@ import java.util.Scanner;
 public class Main {
 
 
+    public static Planete[] planetes = {new PlaneteDesert(), new PlaneteJungle(), new PlaneteOcean(), new PlaneteRocheuse(), new PlaneteTundra()};
+
     public static void main(String[] args) {
 
         Vaisseau[] vaisseaux;
         CentreDeTri[] centresDeTris;
-        Planete[] planetes;
 
         System.out.println("Bienvenue dans la super simulation de la gestion des déchets intergalactiques!");
         //demander le nombre de vaisseaux
@@ -54,6 +55,14 @@ public class Main {
 
             centresDeTris[i] = new CentreDeTri(limiteAttente);
             centresDeTris[i].setNextCentre(centresDeTris[i+1]);
+
+        }
+
+        //assigner le centre d'avant
+        centresDeTris[0].setPreviousCentre(centresDeTris[centresDeTris.length-1]);
+        for (int i = 1; i < centresDeTris.length; i++) {
+
+            centresDeTris[i].setPreviousCentre(centresDeTris[i-1]);
 
         }
 

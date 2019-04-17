@@ -4,6 +4,7 @@ import Dechets.*;
 
 public abstract class Planete {
 
+
     private float[] chancesDechets; //0 = plutonium 1 = thulium 2 = gadolium 3 = terbium 4 = neptunium
 
     public Planete (float[] chancesDechets) {

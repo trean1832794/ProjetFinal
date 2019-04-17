@@ -39,6 +39,7 @@ public abstract class Vaisseau {
 
 
 
+
     }
 
     public void charge (Planete planete) {
