@@ -20,7 +20,19 @@ public abstract class Dechet implements Comparable<Dechet> {
 
     public int compareTo (Dechet o) {
 
-            return nom.compareTo(o.nom);
+            if (masseVolumique - o.masseVolumique == 0) {
+
+                return 0;
+
+            } else if (masseVolumique-o.masseVolumique < 0) {
+
+                return -1;
+
+            } else {
+
+                return 1;
+
+            }
 
     }
 
