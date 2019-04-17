@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 import Dechets.*;
+import Simulation.*;
 
 public class CentreDeTri {
     private int limitePiles = 50;
@@ -14,11 +15,11 @@ public class CentreDeTri {
     private CentreDeTri nextCentre;
     private CentreDeTri previousCentre;
     private Queue<Vaisseau> vaisseauxAttente = new LinkedList<>();
-    private Stack<Plutonium> plutonium = new Stack<Plutonium>();
-    private Stack<Thulium> thulium = new Stack<Thulium>();
-    private Stack<Gadolinium> gadolinium = new Stack<Gadolinium>();
-    private Stack<Terbium> terbium = new Stack<Terbium>();
-    private Stack<Neptunium> neptunium = new Stack<Neptunium>();
+    private Stack<Dechet> plutonium = new Stack<Dechet>();
+    private Stack<Dechet> thulium = new Stack<Dechet>();
+    private Stack<Dechet> gadolinium = new Stack<Dechet>();
+    private Stack<Dechet> terbium = new Stack<Dechet>();
+    private Stack<Dechet> neptunium = new Stack<Dechet>();
 
     public CentreDeTri (int maxAttente){
         this.maxAttente = maxAttente;
@@ -26,9 +27,10 @@ public class CentreDeTri {
 
     public void mettreAttente(Vaisseau vaisseau){
         if(vaisseauxAttente.size() == maxAttente){
-            attentePleine(vaisseauxAttente.poll());
+            attentePleine(vaisseauxAttente.peek());
         }
         vaisseauxAttente.add(vaisseau);
+        stagnant();
     }
 
     public void envoyerVaisseau(Vaisseau vaisseau){
@@ -38,9 +40,57 @@ public class CentreDeTri {
 
     }
 
+    public void stagnant(){
+        if(previousCentre.getVaisseauxAttente().size() == 0){
+            vaisseauxAttente.poll().charge(Main.planetes[(int)(Math.random()*Main.planetes.length)]);
+        }
+    }
+
     public void attentePleine(Vaisseau vaisseau){
         if(plutonium.size() + thulium.size() + gadolinium.size() + terbium.size() + neptunium.size() == 0){
-
+            vaisseau.charge(Main.planetes[(int)(Math.random()*Main.planetes.length)]);
+            vaisseauxAttente.poll();
+        }else{
+            boolean parti = false;
+            while (parti == false){
+                switch ((int)(Math.random()*5)){
+                    case 0 :
+                        if(plutonium.size() > 0){
+                           decharge(plutonium);
+                           plutonium.clear();
+                           parti = true;
+                        }
+                        break;
+                    case 1 :
+                        if(thulium.size() > 0){
+                            decharge(thulium);
+                            thulium.clear();
+                            parti = true;
+                        }
+                        break;
+                    case 2 :
+                        if(gadolinium.size() > 0){
+                            decharge(gadolinium);
+                            gadolinium.clear();
+                            parti = true;
+                        }
+                        break;
+                    case 3 :
+                        if(terbium.size() > 0){
+                            decharge(terbium);
+                            terbium.clear();
+                            parti = true;
+                        }
+                        break;
+                    case 4 :
+                        if(neptunium.size() > 0){
+                            decharge(neptunium);
+                            neptunium.clear();
+                            parti = true;
+                        }
+                        break;
+                }
+            }
         }
     }
 
@@ -90,6 +140,15 @@ public class CentreDeTri {
 
     }
 
+    public void afficherEtat(){
+        System.out.println("Nombre de vaisseau(x) en attente : "+vaisseauxAttente.size());
+        System.out.println("Quantité de plutonium : "+plutonium.size());
+        System.out.println("Quantité de thulium : "+thulium.size());
+        System.out.println("Quantité de gadolium : "+gadolinium.size());
+        System.out.println("Quantité de terbium : "+terbium.size());
+        System.out.println("Quantité de neptunium : "+neptunium.size());
+    }
+
     public void decharge(Stack<Dechet> pilePleine){
         vaisseauxAttente.peek().charge(pilePleine);
         envoyerVaisseau(vaisseauxAttente.poll());
@@ -112,46 +171,6 @@ public class CentreDeTri {
         this.vaisseauxAttente = vaisseauxAttente;
     }
 
-    public Stack<Plutonium> getPlutonium() {
-        return plutonium;
-    }
-
-    public void setPlutonium(Stack<Plutonium> plutonium) {
-        this.plutonium = plutonium;
-    }
-
-    public Stack<Thulium> getThulium() {
-        return thulium;
-    }
-
-    public void setThulium(Stack<Thulium> thulium) {
-        this.thulium = thulium;
-    }
-
-    public Stack<Gadolinium> getGadolinium() {
-        return gadolinium;
-    }
-
-    public void setGadolinium(Stack<Gadolinium> gadolinium) {
-        this.gadolinium = gadolinium;
-    }
-
-    public Stack<Terbium> getTerbium() {
-        return terbium;
-    }
-
-    public void setTerbium(Stack<Terbium> terbium) {
-        this.terbium = terbium;
-    }
-
-    public Stack<Neptunium> getNeptunium() {
-        return neptunium;
-    }
-
-    public void setNeptunium(Stack<Neptunium> neptunium) {
-        this.neptunium = neptunium;
-    }
-
     public CentreDeTri getNextCentre() {
         return nextCentre;
     }
@@ -166,5 +185,45 @@ public class CentreDeTri {
 
     public void setPreviousCentre(CentreDeTri previousCentre) {
         this.previousCentre = previousCentre;
+    }
+
+    public Stack<Dechet> getPlutonium() {
+        return plutonium;
+    }
+
+    public void setPlutonium(Stack<Dechet> plutonium) {
+        this.plutonium = plutonium;
+    }
+
+    public Stack<Dechet> getThulium() {
+        return thulium;
+    }
+
+    public void setThulium(Stack<Dechet> thulium) {
+        this.thulium = thulium;
+    }
+
+    public Stack<Dechet> getGadolinium() {
+        return gadolinium;
+    }
+
+    public void setGadolinium(Stack<Dechet> gadolinium) {
+        this.gadolinium = gadolinium;
+    }
+
+    public Stack<Dechet> getTerbium() {
+        return terbium;
+    }
+
+    public void setTerbium(Stack<Dechet> terbium) {
+        this.terbium = terbium;
+    }
+
+    public Stack<Dechet> getNeptunium() {
+        return neptunium;
+    }
+
+    public void setNeptunium(Stack<Dechet> neptunium) {
+        this.neptunium = neptunium;
     }
 }
