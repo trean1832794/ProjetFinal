@@ -2,6 +2,7 @@ package CentresDeTri;
 
 import Vaisseaux.Vaisseau;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -9,6 +10,7 @@ import Dechets.*;
 
 public class CentreDeTri {
     private int limitePiles = 50;
+    private CentreDeTri nextCentre;
     private Queue<Vaisseau> vaisseauxAttente = new LinkedList<>();
     private Stack<Plutonium> plutonium = new Stack<Plutonium>();
     private Stack<Thulium> thulium = new Stack<Thulium>();
@@ -16,22 +18,67 @@ public class CentreDeTri {
     private Stack<Terbium> terbium = new Stack<Terbium>();
     private Stack<Neptunium> neptunium = new Stack<Neptunium>();
 
+
     public void mettreAttente(Vaisseau vaisseau){
         vaisseauxAttente.add(vaisseau);
     }
 
     public void envoyerVaisseau(Vaisseau vaisseau){
-        vaisseauxAttente.poll();
+
+            vaisseau.changerEmplacement(nextCentre);
+            vaisseau.decharge();
+
     }
 
     public void dechargerVaisseau(Vaisseau vaisseau) {
-
+        ArrayList<Dechet> dechetsTransfer = new ArrayList<>();
+        dechetsTransfer.addAll(vaisseau.getDechets());
         for (Dechet dechet : vaisseau.getDechets()) {
 
+            switch (dechet.getNom()){
+                case"Plutonium" :
+                    if(plutonium.size() < limitePiles) {
+                        plutonium.add(new Plutonium());
+                        dechetsTransfer.remove(dechet);
+                    }else{
 
+                    }
+                    break;
+                case"Thulium" :
+                    if(thulium.size() < limitePiles) {
+                        thulium.add(new Thulium());
+                        dechetsTransfer.remove(dechet);
+                    }
+                    break;
+                case"Gadolinium" :
+                    if(gadolinium.size() < limitePiles) {
+                        gadolinium.add(new Gadolinium());
+                        dechetsTransfer.remove(dechet);
+                    }
+                    break;
+                case"Terbium" :
+                    if(terbium.size() < limitePiles){
+                        terbium.add(new Terbium());
+                        dechetsTransfer.remove(dechet);
+                    }
+
+                    break;
+                case"Neptunium" :
+                    if(neptunium.size() < limitePiles) {
+                        neptunium.add(new Neptunium());
+                        dechetsTransfer.remove(dechet);
+                    }
+                    break;
+            }
 
         }
+        vaisseau.setDechets(dechetsTransfer);
 
+    }
+
+    public void decharge(Stack<Dechet> pilePleine){
+        vaisseauxAttente.peek().charge(pilePleine);
+        envoyerVaisseau(vaisseauxAttente.poll());
     }
 
 
@@ -89,5 +136,13 @@ public class CentreDeTri {
 
     public void setNeptunium(Stack<Neptunium> neptunium) {
         this.neptunium = neptunium;
+    }
+
+    public CentreDeTri getNextCentre() {
+        return nextCentre;
+    }
+
+    public void setNextCentre(CentreDeTri nextCentre) {
+        this.nextCentre = nextCentre;
     }
 }
