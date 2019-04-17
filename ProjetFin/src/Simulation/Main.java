@@ -1,3 +1,5 @@
+package Simulation;
+
 import CentresDeTri.CentreDeTri;
 import Planetes.*;
 import Vaisseaux.Vaisseau;
