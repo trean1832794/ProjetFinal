@@ -14,11 +14,11 @@ public class Main {
 
 
     public static Planete[] planetes = {new PlaneteDesert(), new PlaneteJungle(), new PlaneteOcean(), new PlaneteRocheuse(), new PlaneteTundra()};
+    public static Vaisseau[] vaisseaux;
+    public static CentreDeTri[] centresDeTris;
+
 
     public static void main(String[] args) {
-
-        Vaisseau[] vaisseaux;
-        CentreDeTri[] centresDeTris;
 
         System.out.println("Bienvenue dans la super simulation de la gestion des déchets intergalactiques!");
         //demander le nombre de vaisseaux
@@ -52,7 +52,7 @@ public class Main {
         int limiteAttente = Math.round((vaisseaux.length/centresDeTris.length))+1;
 
         centresDeTris[centresDeTris.length-1] = new CentreDeTri(limiteAttente);
-        for (int i = centresDeTris.length-2; i > 0; i++) {
+        for (int i = centresDeTris.length-2; i >= 0; i--) {
 
 
             centresDeTris[i] = new CentreDeTri(limiteAttente);
@@ -76,6 +76,19 @@ public class Main {
 
         }
 
+
+    }
+
+    public static void finSimulation () {
+
+        System.out.println("Fin de la simulation! Voici les stats finales");
+
+        for (int i = 0; i < centresDeTris.length; i++) {
+
+            System.out.println("Centre de tri # " + (i+1) + "\n");
+            centresDeTris[i].afficherEtat();
+
+        }
 
     }
 
