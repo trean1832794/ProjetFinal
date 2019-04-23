@@ -80,7 +80,7 @@ public class Main {
         simulationStartee = true;
         vaisseaux[vaisseaux.length-1].changerEmplacement(centresDeTris[0]);
         vaisseaux[vaisseaux.length-1].charge(planetes[(int)(Math.random()*planetes.length)]);
-
+        finSimulation();
 
 
 

@@ -41,7 +41,7 @@ public class CentreDeTri {
     }
 
     public void stagnant(){
-        if(previousCentre.getVaisseauxAttente().size() == 0){
+        if(previousCentre.getVaisseauxAttente().size() == 0 && Main.simulationStartee){
             vaisseauxAttente.poll().charge(Main.planetes[(int)(Math.random()*Main.planetes.length)]);
         }
     }
