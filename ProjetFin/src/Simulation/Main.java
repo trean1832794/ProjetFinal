@@ -74,12 +74,14 @@ public class Main {
 
             vaisseaux[i].changerEmplacement(centresDeTris[0]);
             vaisseaux[i].charge(planetes[(int)(Math.random()*planetes.length)]);
+            vaisseaux[i].decharge();
 
         }
         //starter la simulation avant d'envoyer le dernier vaisseau pour des raisons pratiques
         simulationStartee = true;
         vaisseaux[vaisseaux.length-1].changerEmplacement(centresDeTris[0]);
         vaisseaux[vaisseaux.length-1].charge(planetes[(int)(Math.random()*planetes.length)]);
+        vaisseaux[vaisseaux.length-1].decharge();
         finSimulation();
 
 
