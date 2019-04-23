@@ -66,35 +66,35 @@ public class CentreDeTri {
                 switch ((int)(Math.random()*5)){
                     case 0 :
                         if(plutonium.size() > 0){
-                           decharge(plutonium);
+                           recycler(plutonium);
                            plutonium.clear();
                            parti = true;
                         }
                         break;
                     case 1 :
                         if(thulium.size() > 0){
-                            decharge(thulium);
+                            recycler(thulium);
                             thulium.clear();
                             parti = true;
                         }
                         break;
                     case 2 :
                         if(gadolinium.size() > 0){
-                            decharge(gadolinium);
+                            recycler(gadolinium);
                             gadolinium.clear();
                             parti = true;
                         }
                         break;
                     case 3 :
                         if(terbium.size() > 0){
-                            decharge(terbium);
+                            recycler(terbium);
                             terbium.clear();
                             parti = true;
                         }
                         break;
                     case 4 :
                         if(neptunium.size() > 0){
-                            decharge(neptunium);
+                            recycler(neptunium);
                             neptunium.clear();
                             parti = true;
                         }
