@@ -16,6 +16,7 @@ public class Main {
     public static Planete[] planetes = {new PlaneteDesert(), new PlaneteJungle(), new PlaneteOcean(), new PlaneteRocheuse(), new PlaneteTundra()};
     public static Vaisseau[] vaisseaux;
     public static CentreDeTri[] centresDeTris;
+    public static boolean simulationStartee = false;
 
 
     public static void main(String[] args) {
@@ -69,12 +70,19 @@ public class Main {
         }
 
         //début de la simulation
-        for (Vaisseau vaisseau : vaisseaux) {
+        for (int i = 0; i < vaisseaux.length -1; i++) {
 
-            vaisseau.changerEmplacement(centresDeTris[0]);
-            vaisseau.charge(planetes[(int)(Math.random()*planetes.length)]);
+            vaisseaux[i].changerEmplacement(centresDeTris[0]);
+            vaisseaux[i].charge(planetes[(int)(Math.random()*planetes.length)]);
 
         }
+        //starter la simulation avant d'envoyer le dernier vaisseau pour des raisons pratiques
+        simulationStartee = true;
+        vaisseaux[vaisseaux.length-1].changerEmplacement(centresDeTris[0]);
+        vaisseaux[vaisseaux.length-1].charge(planetes[(int)(Math.random()*planetes.length)]);
+
+
+
 
 
     }
