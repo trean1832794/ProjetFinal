@@ -137,6 +137,7 @@ public class CentreDeTri {
 
         }
         vaisseau.setDechets(dechetsTransfer);
+        mettreAttente(vaisseau);
 
     }
 
