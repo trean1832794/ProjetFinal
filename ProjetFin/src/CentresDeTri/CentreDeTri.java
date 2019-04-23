@@ -30,10 +30,11 @@ public class CentreDeTri {
             attentePleine(vaisseauxAttente.peek());
         }
         vaisseauxAttente.add(vaisseau);
-        stagnant();
+        //stagnant();
     }
 
     public void envoyerVaisseau(Vaisseau vaisseau){
+
 
             vaisseau.changerEmplacement(nextCentre);
             vaisseau.decharge();
@@ -41,18 +42,27 @@ public class CentreDeTri {
     }
 
     public void stagnant(){
-        if(previousCentre.getVaisseauxAttente().size() == 0 && Main.simulationStartee){
-            vaisseauxAttente.poll().charge(Main.planetes[(int)(Math.random()*Main.planetes.length)]);
+
+        if (previousCentre == null) {
+
+            System.out.println("PREVIOUSCENTRE NULL");
+
+        }
+
+        if(previousCentre.getVaisseauxAttente().size() == 0 && vaisseauxAttente.size() > 0 && Main.simulationStartee){
+            vaisseauxAttente.peek().changerEmplacement(nextCentre);
+            vaisseauxAttente.remove().charge(Main.planetes[(int)(Math.random()*Main.planetes.length)]);
+
         }
     }
 
     public void attentePleine(Vaisseau vaisseau){
         if(plutonium.size() + thulium.size() + gadolinium.size() + terbium.size() + neptunium.size() == 0){
             vaisseau.charge(Main.planetes[(int)(Math.random()*Main.planetes.length)]);
-            vaisseauxAttente.poll();
+            vaisseauxAttente.remove();
         }else{
             boolean parti = false;
-            while (parti == false){
+            while (!parti){
                 switch ((int)(Math.random()*5)){
                     case 0 :
                         if(plutonium.size() > 0){
@@ -95,6 +105,13 @@ public class CentreDeTri {
     }
 
     public void dechargerVaisseau(Vaisseau vaisseau) {
+
+        if (vaisseau == null) {
+
+            System.out.println("VAISSEAU NULL DANS DECHARGERVAISSEAU");
+
+        }
+
         ArrayList<Dechet> dechetsTransfer = new ArrayList<>();
         dechetsTransfer.addAll(vaisseau.getDechets());
         for (Dechet dechet : vaisseau.getDechets()) {
@@ -106,24 +123,79 @@ public class CentreDeTri {
                         dechetsTransfer.remove(dechet);
                     }else{
 
+                        if (vaisseauxAttente.size() > 0) {
+
+                            vaisseau.setDechets(dechetsTransfer);
+                            recycler(plutonium);
+
+                        } else {
+
+                            System.out.println("PILEPLEINE PAS DE VAISSEAU EN ATTENTE");
+                            plutonium.clear();
+
+                        }
+
+
                     }
                     break;
                 case"Thulium" :
                     if(thulium.size() < limitePiles) {
                         thulium.add(new Thulium());
                         dechetsTransfer.remove(dechet);
+                    } else {
+
+                        if (vaisseauxAttente.size() > 0) {
+
+                            vaisseau.setDechets(dechetsTransfer);
+                            recycler(thulium);
+
+                        } else {
+
+                            System.out.println("PILEPLEINE PAS DE VAISSEAU EN ATTENTE");
+                            thulium.clear();
+
+                        }
+
                     }
                     break;
                 case"Gadolinium" :
                     if(gadolinium.size() < limitePiles) {
                         gadolinium.add(new Gadolinium());
                         dechetsTransfer.remove(dechet);
+                    } else {
+
+                        if (vaisseauxAttente.size() > 0) {
+
+                            vaisseau.setDechets(dechetsTransfer);
+                            recycler(gadolinium);
+
+                        } else {
+
+                            System.out.println("PILEPLEINE PAS DE VAISSEAU EN ATTENTE");
+                            gadolinium.clear();
+
+                        }
+
                     }
                     break;
                 case"Terbium" :
                     if(terbium.size() < limitePiles){
                         terbium.add(new Terbium());
                         dechetsTransfer.remove(dechet);
+                    } else {
+
+                        if (vaisseauxAttente.size() > 0) {
+
+                            vaisseau.setDechets(dechetsTransfer);
+                            recycler(terbium);
+
+                        } else {
+
+                            System.out.println("PILEPLEINE PAS DE VAISSEAU EN ATTENTE");
+                            terbium.clear();
+
+                        }
+
                     }
 
                     break;
@@ -131,13 +203,42 @@ public class CentreDeTri {
                     if(neptunium.size() < limitePiles) {
                         neptunium.add(new Neptunium());
                         dechetsTransfer.remove(dechet);
+                    } else {
+
+                        if (vaisseauxAttente.size() > 0) {
+
+                            vaisseau.setDechets(dechetsTransfer);
+                            recycler(neptunium);
+
+                        } else {
+
+                            System.out.println("PILEPLEINE PAS DE VAISSEAU EN ATTENTE");
+                            neptunium.clear();
+
+                        }
+
                     }
                     break;
             }
 
         }
+
         vaisseau.setDechets(dechetsTransfer);
         mettreAttente(vaisseau);
+
+    }
+
+    public void recycler (Stack<Dechet> pile) {
+
+        int dechetsRetire;
+        dechetsRetire = (int)pile.peek().getPourcentageRecyclage()*pile.size();
+        for (int i = 0; i < dechetsRetire; i++) {
+
+            pile.pop();
+
+        }
+
+        decharge(pile);
 
     }
 
@@ -151,8 +252,17 @@ public class CentreDeTri {
     }
 
     public void decharge(Stack<Dechet> pilePleine){
-        vaisseauxAttente.peek().charge(pilePleine);
-        envoyerVaisseau(vaisseauxAttente.poll());
+        try {
+
+            vaisseauxAttente.peek().charge(pilePleine);
+
+        } catch (NullPointerException ex) {
+
+            System.out.println("NULLPOINTEREXCEPTION DANS DECHARGE CENTREDETRI : " + ex.toString());
+
+        }
+
+        envoyerVaisseau(vaisseauxAttente.remove());
     }
 
 

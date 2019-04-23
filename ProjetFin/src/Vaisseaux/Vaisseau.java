@@ -38,9 +38,6 @@ public abstract class Vaisseau {
             }
         }
 
-
-
-
     }
 
     public void charge (Planete planete) {
@@ -50,6 +47,8 @@ public abstract class Vaisseau {
             dechets.add(planete.charge());
 
         }
+
+        decharge();
 
     }
 
@@ -68,7 +67,15 @@ public abstract class Vaisseau {
     public void decharge(){
 
         tri();
-        emplacement.dechargerVaisseau(this);
+        try {
+
+            emplacement.dechargerVaisseau(this);
+
+        } catch (NullPointerException ex) {
+
+            System.out.println("NULLPOINTEREXCEPTION DANS DECHARGE DE VAISSEAU : " + ex.toString());
+
+        }
 
     }
 

@@ -12,7 +12,7 @@ import java.util.Scanner;
 // ProjetFinal Antoine Tremblay-Simard & Thomas Bergeron
 public class Main {
 
-
+    public static Scanner sc = new Scanner(System.in);
     public static Planete[] planetes = {new PlaneteDesert(), new PlaneteJungle(), new PlaneteOcean(), new PlaneteRocheuse(), new PlaneteTundra()};
     public static Vaisseau[] vaisseaux;
     public static CentreDeTri[] centresDeTris;
@@ -50,7 +50,7 @@ public class Main {
         centresDeTris = new CentreDeTri[demanderTaille()];
 
         //calcul de la limite de vaisseaux en attente par centre de tri
-        int limiteAttente = Math.round((vaisseaux.length/centresDeTris.length))+1;
+        int limiteAttente = Math.round((vaisseaux.length/centresDeTris.length))+2;
 
         centresDeTris[centresDeTris.length-1] = new CentreDeTri(limiteAttente);
         for (int i = centresDeTris.length-2; i >= 0; i--) {
@@ -60,6 +60,7 @@ public class Main {
             centresDeTris[i].setNextCentre(centresDeTris[i+1]);
 
         }
+        centresDeTris[centresDeTris.length-1].setNextCentre(centresDeTris[0]);
 
         //assigner le centre d'avant
         centresDeTris[0].setPreviousCentre(centresDeTris[centresDeTris.length-1]);
@@ -72,16 +73,15 @@ public class Main {
         //début de la simulation
         for (int i = 0; i < vaisseaux.length -1; i++) {
 
+
             vaisseaux[i].changerEmplacement(centresDeTris[0]);
             vaisseaux[i].charge(planetes[(int)(Math.random()*planetes.length)]);
-            vaisseaux[i].decharge();
 
         }
         //starter la simulation avant d'envoyer le dernier vaisseau pour des raisons pratiques
         simulationStartee = true;
         vaisseaux[vaisseaux.length-1].changerEmplacement(centresDeTris[0]);
         vaisseaux[vaisseaux.length-1].charge(planetes[(int)(Math.random()*planetes.length)]);
-        vaisseaux[vaisseaux.length-1].decharge();
         finSimulation();
 
 
@@ -95,7 +95,7 @@ public class Main {
 
         for (int i = 0; i < centresDeTris.length; i++) {
 
-            System.out.println("Centre de tri # " + (i+1) + "\n");
+            System.out.println("\n-----------------\nCentre de tri # " + (i+1) + "\n-----------------\n");
             centresDeTris[i].afficherEtat();
 
         }
@@ -104,16 +104,27 @@ public class Main {
 
     public static int demanderTaille () {
 
-        Scanner sc = new Scanner(System.in);
-
-        int choice = sc.next().charAt(0)-48;
+        int choice = nextInt();
         while (choice <= 0) {
 
             System.out.println("Veuillez entrer un chiffre plus grand que 0. >:(");
-            choice = sc.next().charAt(0)-48;
+            choice = nextInt();
 
         }
 
         return choice;
+    }
+
+    public static int nextInt() {
+
+        //failsafe dans chaque fois ou on demande un int pour que meme si on mette des lettres ça crash pas le programme
+        String nb = (sc.next());
+        int nbFinal = 0;
+        for(int i = nb.length()-1; i >= 0; i--){
+            nbFinal = (int)(nbFinal + (nb.charAt((nb.length()-1) - (i))-48)*Math.pow(10,i));
+        }
+
+        return nbFinal;
+
     }
 }
