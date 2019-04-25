@@ -1,6 +1,7 @@
 package Simulation;
 
 import CentresDeTri.CentreDeTri;
+import Exceptions.MaterialFullException;
 import Planetes.*;
 import Vaisseaux.Vaisseau;
 import Vaisseaux.VaisseauLeger;
@@ -89,7 +90,7 @@ public class Main {
 
     }
 
-    public static void exceptionPilePleine(){
+    public static void exceptionPilePleine()throws MaterialFullException {
         int[] nbDechets = new int[5];
 
         for (CentreDeTri centre : centresDeTris){
@@ -102,7 +103,7 @@ public class Main {
 
         for(int nb : nbDechets){
             if(nb == centresDeTris[0].getLimitePiles()*centresDeTris.length){
-                //throw exception
+                throw new MaterialFullException();
             }
         }
     }
