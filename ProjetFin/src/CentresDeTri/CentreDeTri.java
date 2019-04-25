@@ -123,6 +123,7 @@ public class CentreDeTri {
                         dechetsTransfer.remove(dechet);
                     }else{
 
+                        Main.exceptionPilePleine();
                         if (vaisseauxAttente.size() > 0) {
 
                             vaisseau.setDechets(dechetsTransfer);
@@ -143,7 +144,7 @@ public class CentreDeTri {
                         thulium.add(new Thulium());
                         dechetsTransfer.remove(dechet);
                     } else {
-
+                        Main.exceptionPilePleine();
                         if (vaisseauxAttente.size() > 0) {
 
                             vaisseau.setDechets(dechetsTransfer);
@@ -163,7 +164,7 @@ public class CentreDeTri {
                         gadolinium.add(new Gadolinium());
                         dechetsTransfer.remove(dechet);
                     } else {
-
+                        Main.exceptionPilePleine();
                         if (vaisseauxAttente.size() > 0) {
 
                             vaisseau.setDechets(dechetsTransfer);
@@ -183,7 +184,7 @@ public class CentreDeTri {
                         terbium.add(new Terbium());
                         dechetsTransfer.remove(dechet);
                     } else {
-
+                        Main.exceptionPilePleine();
                         if (vaisseauxAttente.size() > 0) {
 
                             vaisseau.setDechets(dechetsTransfer);
@@ -204,7 +205,7 @@ public class CentreDeTri {
                         neptunium.add(new Neptunium());
                         dechetsTransfer.remove(dechet);
                     } else {
-
+                        Main.exceptionPilePleine();
                         if (vaisseauxAttente.size() > 0) {
 
                             vaisseau.setDechets(dechetsTransfer);

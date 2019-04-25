@@ -89,6 +89,24 @@ public class Main {
 
     }
 
+    public static void exceptionPilePleine(){
+        int[] nbDechets = new int[5];
+
+        for (CentreDeTri centre : centresDeTris){
+            nbDechets[0] += centre.getPlutonium().size();
+            nbDechets[1] += centre.getThulium().size();
+            nbDechets[2] += centre.getGadolinium().size();
+            nbDechets[3] += centre.getTerbium().size();
+            nbDechets[4] += centre.getNeptunium().size();
+        }
+
+        for(int nb : nbDechets){
+            if(nb == centresDeTris[0].getLimitePiles()*centresDeTris.length){
+                //throw exception
+            }
+        }
+    }
+
     public static void finSimulation () {
 
         System.out.println("Fin de la simulation! Voici les stats finales");
