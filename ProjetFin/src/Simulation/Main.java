@@ -2,6 +2,7 @@ package Simulation;
 
 import CentresDeTri.CentreDeTri;
 import Exceptions.MaterialFullException;
+import Exceptions.WaitingFullException;
 import Planetes.*;
 import Vaisseaux.Vaisseau;
 import Vaisseaux.VaisseauLeger;
@@ -106,6 +107,27 @@ public class Main {
                 throw new MaterialFullException();
             }
         }
+    }
+
+    public static void checkAttente() throws WaitingFullException {
+
+        int centresTriPleins = 0;
+        for (CentreDeTri centre : centresDeTris) {
+
+            if (centre.getVaisseauxAttente().size() >= centre.getMaxAttente()) {
+
+                centresTriPleins++;
+
+            }
+
+        }
+
+        if (centresTriPleins == centresDeTris.length) {
+
+            throw(new WaitingFullException());
+
+        }
+
     }
 
     public static void finSimulation () {

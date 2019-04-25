@@ -1,5 +1,7 @@
 package CentresDeTri;
 
+import Exceptions.MaterialFullException;
+import Exceptions.WaitingFullException;
 import Vaisseaux.Vaisseau;
 
 import java.util.ArrayList;
@@ -29,6 +31,15 @@ public class CentreDeTri {
         if(vaisseauxAttente.size() == maxAttente){
             attentePleine(vaisseauxAttente.peek());
         }
+        try {
+
+            Main.checkAttente();
+
+        } catch (WaitingFullException ex) {
+
+            System.out.println("Erreur: " + ex.toString());
+
+        }
         vaisseauxAttente.add(vaisseau);
         //stagnant();
     }
@@ -42,12 +53,6 @@ public class CentreDeTri {
     }
 
     public void stagnant(){
-
-        if (previousCentre == null) {
-
-            System.out.println("PREVIOUSCENTRE NULL");
-
-        }
 
         if(previousCentre.getVaisseauxAttente().size() == 0 && vaisseauxAttente.size() > 0 && Main.simulationStartee){
             vaisseauxAttente.peek().changerEmplacement(nextCentre);
@@ -106,12 +111,6 @@ public class CentreDeTri {
 
     public void dechargerVaisseau(Vaisseau vaisseau) {
 
-        if (vaisseau == null) {
-
-            System.out.println("VAISSEAU NULL DANS DECHARGERVAISSEAU");
-
-        }
-
         ArrayList<Dechet> dechetsTransfer = new ArrayList<>();
         dechetsTransfer.addAll(vaisseau.getDechets());
         for (Dechet dechet : vaisseau.getDechets()) {
@@ -123,7 +122,15 @@ public class CentreDeTri {
                         dechetsTransfer.remove(dechet);
                     }else{
 
-                        Main.exceptionPilePleine();
+                        try {
+
+                            Main.exceptionPilePleine();
+
+                        } catch (MaterialFullException ex) {
+
+                            System.out.println("Erreur: " + ex.toString());
+
+                        }
                         if (vaisseauxAttente.size() > 0) {
 
                             vaisseau.setDechets(dechetsTransfer);
@@ -131,7 +138,6 @@ public class CentreDeTri {
 
                         } else {
 
-                            System.out.println("PILEPLEINE PAS DE VAISSEAU EN ATTENTE");
                             plutonium.clear();
 
                         }
@@ -144,7 +150,15 @@ public class CentreDeTri {
                         thulium.add(new Thulium());
                         dechetsTransfer.remove(dechet);
                     } else {
-                        Main.exceptionPilePleine();
+                        try {
+
+                            Main.exceptionPilePleine();
+
+                        } catch (MaterialFullException ex) {
+
+                            System.out.println("Erreur: " + ex.toString());
+
+                        }
                         if (vaisseauxAttente.size() > 0) {
 
                             vaisseau.setDechets(dechetsTransfer);
@@ -152,7 +166,6 @@ public class CentreDeTri {
 
                         } else {
 
-                            System.out.println("PILEPLEINE PAS DE VAISSEAU EN ATTENTE");
                             thulium.clear();
 
                         }
@@ -164,7 +177,15 @@ public class CentreDeTri {
                         gadolinium.add(new Gadolinium());
                         dechetsTransfer.remove(dechet);
                     } else {
-                        Main.exceptionPilePleine();
+                        try {
+
+                            Main.exceptionPilePleine();
+
+                        } catch (MaterialFullException ex) {
+
+                            System.out.println("Erreur: " + ex.toString());
+
+                        }
                         if (vaisseauxAttente.size() > 0) {
 
                             vaisseau.setDechets(dechetsTransfer);
@@ -172,7 +193,6 @@ public class CentreDeTri {
 
                         } else {
 
-                            System.out.println("PILEPLEINE PAS DE VAISSEAU EN ATTENTE");
                             gadolinium.clear();
 
                         }
@@ -184,7 +204,15 @@ public class CentreDeTri {
                         terbium.add(new Terbium());
                         dechetsTransfer.remove(dechet);
                     } else {
-                        Main.exceptionPilePleine();
+                        try {
+
+                            Main.exceptionPilePleine();
+
+                        } catch (MaterialFullException ex) {
+
+                            System.out.println("Erreur: " + ex.toString());
+
+                        }
                         if (vaisseauxAttente.size() > 0) {
 
                             vaisseau.setDechets(dechetsTransfer);
@@ -192,7 +220,6 @@ public class CentreDeTri {
 
                         } else {
 
-                            System.out.println("PILEPLEINE PAS DE VAISSEAU EN ATTENTE");
                             terbium.clear();
 
                         }
@@ -205,7 +232,15 @@ public class CentreDeTri {
                         neptunium.add(new Neptunium());
                         dechetsTransfer.remove(dechet);
                     } else {
-                        Main.exceptionPilePleine();
+                        try {
+
+                            Main.exceptionPilePleine();
+
+                        } catch (MaterialFullException ex) {
+
+                            System.out.println("Erreur: " + ex.toString());
+
+                        }
                         if (vaisseauxAttente.size() > 0) {
 
                             vaisseau.setDechets(dechetsTransfer);
@@ -213,7 +248,6 @@ public class CentreDeTri {
 
                         } else {
 
-                            System.out.println("PILEPLEINE PAS DE VAISSEAU EN ATTENTE");
                             neptunium.clear();
 
                         }
@@ -259,7 +293,7 @@ public class CentreDeTri {
 
         } catch (NullPointerException ex) {
 
-            System.out.println("NULLPOINTEREXCEPTION DANS DECHARGE CENTREDETRI : " + ex.toString());
+            System.out.println("Erreur lors de la décharge dans le centre de tri : " + ex.toString());
 
         }
 
@@ -337,5 +371,13 @@ public class CentreDeTri {
 
     public void setNeptunium(Stack<Dechet> neptunium) {
         this.neptunium = neptunium;
+    }
+
+    public int getMaxAttente() {
+        return maxAttente;
+    }
+
+    public void setMaxAttente(int maxAttente) {
+        this.maxAttente = maxAttente;
     }
 }

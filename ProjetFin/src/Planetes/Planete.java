@@ -1,6 +1,7 @@
 package Planetes;
 
 import Dechets.*;
+import Exceptions.WaitingFullException;
 
 public abstract class Planete {
 

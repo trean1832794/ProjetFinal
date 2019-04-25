@@ -7,7 +7,6 @@ import Planetes.Planete;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
-import Simulation.Main;
 
 public abstract class Vaisseau {
     private ArrayList<Dechet> dechets = new ArrayList<>();
@@ -73,7 +72,7 @@ public abstract class Vaisseau {
 
         } catch (NullPointerException ex) {
 
-            System.out.println("NULLPOINTEREXCEPTION DANS DECHARGE DE VAISSEAU : " + ex.toString());
+            System.out.println("Erreur lors de la décharge dans le vaisseau : " + ex.toString());
 
         }
 
