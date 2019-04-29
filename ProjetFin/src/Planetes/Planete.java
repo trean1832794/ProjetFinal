@@ -3,7 +3,7 @@ package Planetes;
 import Dechets.*;
 import Exceptions.WaitingFullException;
 
-public abstract class Planete {
+public class Planete {
 
 
     private float[] chancesDechets; //0 = plutonium 1 = thulium 2 = gadolium 3 = terbium 4 = neptunium

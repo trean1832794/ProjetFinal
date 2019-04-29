@@ -8,51 +8,99 @@ import Vaisseaux.Vaisseau;
 import Vaisseaux.VaisseauLeger;
 import Vaisseaux.VaisseauLourd;
 import Vaisseaux.VaisseauNormal;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 // ProjetFinal Antoine Tremblay-Simard & Thomas Bergeron
 public class Main {
 
     public static Scanner sc = new Scanner(System.in);
-    public static Planete[] planetes = {new PlaneteDesert(), new PlaneteJungle(), new PlaneteOcean(), new PlaneteRocheuse(), new PlaneteTundra()};
-    public static Vaisseau[] vaisseaux;
+    public static ArrayList<Planete> planetes  = new ArrayList<>();
+    public static ArrayList<Vaisseau> vaisseaux = new ArrayList<>();
     public static CentreDeTri[] centresDeTris;
     public static boolean simulationStartee = false;
 
 
     public static void main(String[] args) {
 
-        System.out.println("Bienvenue dans la super simulation de la gestion des déchets intergalactiques!");
-        //demander le nombre de vaisseaux
-        System.out.println("Combien de vaisseaux voulez-vous? : ");
-        vaisseaux = new Vaisseau[demanderTaille()];
+        Node root = null;
+        try {
+            File file = new File("data.xml");
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbf.newDocumentBuilder();
+            Document doc = dBuilder.parse(file);
+            root = doc.getDocumentElement(); // Référence à l'élément racine
+            clean(root);
 
-        for (int i = 0; i < vaisseaux.length; i++) {
-            long typeVaisseau = Math.round((Math.random()*2)+1);
+        } catch (ParserConfigurationException ex1) {
 
-            if (typeVaisseau == 1) {
+            System.out.println("Erreur de fichier : " + ex1.toString());
 
-                vaisseaux[i] = new VaisseauLeger();
+        } catch (SAXException ex2) {
 
-            }else if (typeVaisseau == 2) {
+            System.out.println("Erreur de fichier : " + ex2.toString());
 
-                vaisseaux[i] = new VaisseauNormal();
+        } catch (IOException ex3) {
 
-            } else {
+            System.out.println("Erreur de fichier : " + ex3.toString());
 
-                vaisseaux[i] = new VaisseauLourd();
+        }
+
+
+        //gestion des données venues du XML
+        //vaisseaux
+        if (root !=null) {
+
+            //leger
+            for (int i = 0; i < toInt(root.getFirstChild().getFirstChild().getNodeValue()); i++) {
+
+                vaisseaux.add(new VaisseauLeger());
+
+            }
+            //normal
+            for (int i = 0; i < toInt(root.getFirstChild().getNextSibling().getFirstChild().getNodeValue()); i++) {
+
+                vaisseaux.add(new VaisseauNormal());
+
+            }
+
+            for (int i = 0; i < toInt(root.getLastChild().getFirstChild().getNodeValue()); i++) {
+
+                vaisseaux.add(new VaisseauLeger());
+
+            }
+
+            //planètes
+            for(int i = 0; i < root.getChildNodes().item(1).getChildNodes().getLength(); i++) {
+
+                float[] chanceDechet = parsePlanete(root.getChildNodes().item(1).getChildNodes().item(i).getFirstChild().getNodeValue());
+                planetes.add(new Planete(chanceDechet));
 
             }
 
         }
 
+
+        //System.out.println("Bienvenue dans la super simulation de la gestion des déchets intergalactiques!");
+        //demander le nombre de vaisseaux
+       //System.out.println("Combien de vaisseaux voulez-vous? : ");
+
         //demander le nombre de centres de tri
-        System.out.println("Combien de centres de tri voulez-vous? : ");
+        //System.out.println("Combien de centres de tri voulez-vous? : ");
         centresDeTris = new CentreDeTri[demanderTaille()];
 
         //calcul de la limite de vaisseaux en attente par centre de tri
-        int limiteAttente = Math.round((vaisseaux.length/centresDeTris.length))+2;
+        int limiteAttente = Math.round((vaisseaux.size()/centresDeTris.length))+2;
 
         centresDeTris[centresDeTris.length-1] = new CentreDeTri(limiteAttente);
         for (int i = centresDeTris.length-2; i >= 0; i--) {
@@ -73,20 +121,18 @@ public class Main {
         }
 
         //début de la simulation
-        for (int i = 0; i < vaisseaux.length -1; i++) {
+        for (int i = 0; i < vaisseaux.size() -1; i++) {
 
 
-            vaisseaux[i].changerEmplacement(centresDeTris[0]);
-            vaisseaux[i].charge(planetes[(int)(Math.random()*planetes.length)]);
+            vaisseaux.get(i).changerEmplacement(centresDeTris[0]);
+            vaisseaux.get(i).charge(planetes.get((int)(Math.random()*planetes.size())));
 
         }
         //starter la simulation avant d'envoyer le dernier vaisseau pour des raisons pratiques
         simulationStartee = true;
-        vaisseaux[vaisseaux.length-1].changerEmplacement(centresDeTris[0]);
-        vaisseaux[vaisseaux.length-1].charge(planetes[(int)(Math.random()*planetes.length)]);
+        vaisseaux.get(vaisseaux.size()-1).changerEmplacement(centresDeTris[0]);
+        vaisseaux.get(vaisseaux.size()-1).charge(planetes.get((int)(Math.random()*planetes.size())));
         finSimulation();
-
-
 
 
     }
@@ -167,5 +213,57 @@ public class Main {
 
         return nbFinal;
 
+    }
+
+    public static int toInt(String string) {
+
+        String nb = string;
+        int nbFinal = 0;
+        for(int i = nb.length()-1; i >= 0; i--){
+            nbFinal = (int)(nbFinal + (nb.charAt((nb.length()-1) - (i))-48)*Math.pow(10,i));
+        }
+
+        return nbFinal;
+
+    }
+
+    public static float[] parsePlanete(String string) {
+
+        String[] chanceDechet = string.split(";");
+        float[] chanceDechetFloat = new float[chanceDechet.length];
+        for(int i = 0; i < chanceDechet.length; i++) {
+            float nbFinal = 0;
+            for(int j = 0; j < chanceDechet[i].length(); j++){
+                nbFinal = (int)(nbFinal + (chanceDechet[j].charAt(j)-48)*Math.pow(10,-j));
+            }
+            chanceDechetFloat[i] = nbFinal;
+
+        }
+
+        return chanceDechetFloat;
+    }
+
+    public static void clean(Node node)
+    {
+        NodeList childNodes = node.getChildNodes();
+
+        for (int n = childNodes.getLength() - 1; n >= 0; n--)
+        {
+            Node child = childNodes.item(n);
+            short nodeType = child.getNodeType();
+
+            if (nodeType == Node.ELEMENT_NODE)
+                clean(child);
+            else if (nodeType == Node.TEXT_NODE)
+            {
+                String trimmedNodeVal = child.getNodeValue().trim();
+                if (trimmedNodeVal.length() == 0)
+                    node.removeChild(child);
+                else
+                    child.setNodeValue(trimmedNodeVal);
+            }
+            else if (nodeType == Node.COMMENT_NODE)
+                node.removeChild(child);
+        }
     }
 }
