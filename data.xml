@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<simulation>
+    <vaisseaux>
+        <vaisseauleger>
+            <qty>10</qty>
+        </vaisseauleger>
+        <vaisseaunormal>
+            <qty>5</qty>
+        </vaisseaunormal>
+        <vaisseaulourd>
+            <qty>10</qty>
+        </vaisseaulourd>
+    </vaisseaux>
+    <planetes>
+        <planeteexemple>
+            <chancedechet>0.5;1.0</chancedechet>
+        </planeteexemple>
+    </planetes>
+    <dechets>
+        <dechetexemple>
+            <nom>dechetexemple</nom>
+            <massevolumique>6.9</massevolumique>
+            <pourcentagerecyclage>0.69</pourcentagerecyclage>
+        </dechetexemple>
+    </dechets>
+    <centresdetri>
+        <qty>10</qty>
+    </centresdetri>
+</simulation>
