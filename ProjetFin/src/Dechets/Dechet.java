@@ -1,16 +1,18 @@
 package Dechets;
 
-public abstract class Dechet implements Comparable<Dechet> {
+public class Dechet implements Comparable<Dechet> {
 
         private String nom;
+        private int id;
         private float masseVolumique;
         private float pourcentageRecyclage;
 
-        public Dechet (String nom, float masseVolumique, float pourcentageRecyclage) {
+        public Dechet (String nom, float masseVolumique, float pourcentageRecyclage,int id) {
 
             this.nom = nom;
             this.masseVolumique = masseVolumique;
             this.pourcentageRecyclage = pourcentageRecyclage;
+            this.id = id;
 
         }
 
@@ -35,6 +37,8 @@ public abstract class Dechet implements Comparable<Dechet> {
             }
 
     }
+
+    public int getId() { return id;}
 
     public void setNom(String nom) {
         this.nom = nom;

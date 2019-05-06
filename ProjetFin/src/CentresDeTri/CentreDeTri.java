@@ -17,14 +17,22 @@ public class CentreDeTri {
     private CentreDeTri nextCentre;
     private CentreDeTri previousCentre;
     private Queue<Vaisseau> vaisseauxAttente = new LinkedList<>();
+    private ArrayList<Stack<Dechet>> pilesDechets = new ArrayList<>();
     private Stack<Dechet> plutonium = new Stack<Dechet>();
     private Stack<Dechet> thulium = new Stack<Dechet>();
     private Stack<Dechet> gadolinium = new Stack<Dechet>();
     private Stack<Dechet> terbium = new Stack<Dechet>();
     private Stack<Dechet> neptunium = new Stack<Dechet>();
 
-    public CentreDeTri (int maxAttente){
+    public CentreDeTri (int maxAttente,ArrayList<Dechet> dechets){
         this.maxAttente = maxAttente;
+        //ajouter des piles pour le nombre de déchets différents
+        for (int i = 0; i < dechets.size(); i++) {
+
+            pilesDechets.add(new Stack<Dechet>());
+
+        }
+
     }
 
     public void mettreAttente(Vaisseau vaisseau){
@@ -56,14 +64,35 @@ public class CentreDeTri {
 
         if(previousCentre.getVaisseauxAttente().size() == 0 && vaisseauxAttente.size() > 0 && Main.simulationStartee){
             vaisseauxAttente.peek().changerEmplacement(nextCentre);
-            vaisseauxAttente.remove().charge(Main.planetes[(int)(Math.random()*Main.planetes.length)]);
+            vaisseauxAttente.remove().charge(Main.planetes.get((int)(Math.random()*Main.planetes.size())));
 
         }
     }
 
     public void attentePleine(Vaisseau vaisseau){
-        if(plutonium.size() + thulium.size() + gadolinium.size() + terbium.size() + neptunium.size() == 0){
-            vaisseau.charge(Main.planetes[(int)(Math.random()*Main.planetes.length)]);
+
+        int quantiteDechets = 0;
+        for(Stack<Dechet> dechets : pilesDechets){
+            quantiteDechets += dechets.size();
+        }
+        if(quantiteDechets == 0){
+            vaisseau.charge(Main.planetes.get((int)(Math.random()*Main.planetes.size())));
+            vaisseauxAttente.remove();
+        }else{
+
+            while(true){
+                int choix = (int)(Math.random()*pilesDechets.size());
+                if(pilesDechets.get(choix).size() > 0){
+                    recycler(pilesDechets.get(choix));
+                    pilesDechets.get(choix).clear();
+                    break;
+                }
+            }
+
+        }
+
+       /* if(plutonium.size() + thulium.size() + gadolinium.size() + terbium.size() + neptunium.size() == 0){
+            vaisseau.charge(Main.planetes.get((int)(Math.random()*Main.planetes.size())));
             vaisseauxAttente.remove();
         }else{
             boolean parti = false;
@@ -106,14 +135,39 @@ public class CentreDeTri {
                         break;
                 }
             }
-        }
+        }*/
     }
 
     public void dechargerVaisseau(Vaisseau vaisseau) {
 
         ArrayList<Dechet> dechetsTransfer = new ArrayList<>();
         dechetsTransfer.addAll(vaisseau.getDechets());
-        for (Dechet dechet : vaisseau.getDechets()) {
+
+        for (Dechet dechet : vaisseau.getDechets()){
+            if( pilesDechets.get(dechet.getId()).size() < limitePiles) {
+                pilesDechets.get(dechet.getId()).add(dechet);
+                dechetsTransfer.remove(dechet);
+            }else{
+                try {
+
+                    Main.exceptionPilePleine();
+
+                } catch (MaterialFullException ex) {
+
+                    System.out.println("Erreur: " + ex.toString());
+
+                }
+                if(vaisseauxAttente.size() > 0){
+                    vaisseau.setDechets(dechetsTransfer);
+                    recycler(pilesDechets.get(dechet.getId()));
+                }else{
+                    pilesDechets.get(dechet.getId()).clear();
+                }
+            }
+        }
+        vaisseau.setDechets(dechetsTransfer);
+        mettreAttente(vaisseau);
+       /* for (Dechet dechet : vaisseau.getDechets()) {
 
             switch (dechet.getNom()){
                 case"Plutonium" :
@@ -259,7 +313,7 @@ public class CentreDeTri {
         }
 
         vaisseau.setDechets(dechetsTransfer);
-        mettreAttente(vaisseau);
+        mettreAttente(vaisseau);*/
 
     }
 

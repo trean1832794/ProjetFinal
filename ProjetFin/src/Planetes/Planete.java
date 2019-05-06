@@ -2,6 +2,7 @@ package Planetes;
 
 import Dechets.*;
 import Exceptions.WaitingFullException;
+import Simulation.Main;
 
 public class Planete {
 
@@ -16,32 +17,21 @@ public class Planete {
 
         //on roule un dé pour savoir quel type de déchet sera récolté par le vaisseau
         double roll = Math.random();
+        float chance = 0.0f;
+        for (Dechet dechet : Main.dechets) {
 
-        if (roll <= chancesDechets[0]) {
+            chance = chancesDechets[dechet.getId()];
+            if (roll <= chance) {
 
-            return new Plutonium();
+                //on return le dechet
+                return dechet;
 
-        } else if (roll < chancesDechets[1]) {
-
-            return new Thulium();
-
-        } else if (roll < chancesDechets[2]) {
-
-            return new Gadolinium();
-
-        } else if (roll < chancesDechets[3]) {
-
-            return new Terbium();
-
-        } else if (roll < chancesDechets[4]) {
-
-            return new Neptunium();
-
-        } else {
-
-            return null;
+            }
 
         }
+
+        System.out.println("Aucun déchet n'a été pogné: checkez vos valeurs dans le fichier xml");
+        return null;
 
     }
 

@@ -1,6 +1,7 @@
 package Simulation;
 
 import CentresDeTri.CentreDeTri;
+import Dechets.Dechet;
 import Exceptions.MaterialFullException;
 import Exceptions.WaitingFullException;
 import Planetes.*;
@@ -28,6 +29,7 @@ public class Main {
     public static ArrayList<Planete> planetes  = new ArrayList<>();
     public static ArrayList<Vaisseau> vaisseaux = new ArrayList<>();
     public static CentreDeTri[] centresDeTris;
+    public static ArrayList<Dechet> dechets = new ArrayList<>();
     public static boolean simulationStartee = false;
 
 
@@ -88,37 +90,50 @@ public class Main {
 
             }
 
+            //déchets
+            for (int i = 0; i < root.getChildNodes().item(2).getChildNodes().getLength(); i++) {
+
+                Node directory = root.getChildNodes().item(2).getChildNodes().item(i);
+                Dechet dechet = new Dechet(directory.getChildNodes().item(0).getNodeValue(),toFloat((directory.getChildNodes().item(1).getNodeValue())),toFloat((directory.getChildNodes().item(2).getNodeValue())),i);
+
+            }
+
+            //centres de tri
+            int nbCentreTri = toInt(root.getLastChild().getFirstChild().getNodeValue());
+            if (nbCentreTri > 0) {
+
+                centresDeTris = new CentreDeTri[nbCentreTri];
+
+                //calcul de la limite de vaisseaux en attente par centre de tri
+                int limiteAttente = Math.round((vaisseaux.size()/centresDeTris.length))+2;
+
+                centresDeTris[centresDeTris.length-1] = new CentreDeTri(limiteAttente,dechets);
+                for (int i = centresDeTris.length-2; i >= 0; i--) {
+
+
+                    centresDeTris[i] = new CentreDeTri(limiteAttente,dechets);
+                    centresDeTris[i].setNextCentre(centresDeTris[i+1]);
+
+                }
+                centresDeTris[centresDeTris.length-1].setNextCentre(centresDeTris[0]);
+
+                //assigner le centre d'avant
+                centresDeTris[0].setPreviousCentre(centresDeTris[centresDeTris.length-1]);
+                for (int i = 1; i < centresDeTris.length; i++) {
+
+                    centresDeTris[i].setPreviousCentre(centresDeTris[i-1]);
+
+                }
+
+            } else {
+
+                System.out.println("Fichier XML Erroné : le nombre de centres de tri est plus petit ou égal à 0. >:(");
+                System.exit(6);
+
+            }
+
         }
 
-
-        //System.out.println("Bienvenue dans la super simulation de la gestion des déchets intergalactiques!");
-        //demander le nombre de vaisseaux
-       //System.out.println("Combien de vaisseaux voulez-vous? : ");
-
-        //demander le nombre de centres de tri
-        //System.out.println("Combien de centres de tri voulez-vous? : ");
-        centresDeTris = new CentreDeTri[demanderTaille()];
-
-        //calcul de la limite de vaisseaux en attente par centre de tri
-        int limiteAttente = Math.round((vaisseaux.size()/centresDeTris.length))+2;
-
-        centresDeTris[centresDeTris.length-1] = new CentreDeTri(limiteAttente);
-        for (int i = centresDeTris.length-2; i >= 0; i--) {
-
-
-            centresDeTris[i] = new CentreDeTri(limiteAttente);
-            centresDeTris[i].setNextCentre(centresDeTris[i+1]);
-
-        }
-        centresDeTris[centresDeTris.length-1].setNextCentre(centresDeTris[0]);
-
-        //assigner le centre d'avant
-        centresDeTris[0].setPreviousCentre(centresDeTris[centresDeTris.length-1]);
-        for (int i = 1; i < centresDeTris.length; i++) {
-
-            centresDeTris[i].setPreviousCentre(centresDeTris[i-1]);
-
-        }
 
         //début de la simulation
         for (int i = 0; i < vaisseaux.size() -1; i++) {
@@ -223,6 +238,16 @@ public class Main {
             nbFinal = (int)(nbFinal + (nb.charAt((nb.length()-1) - (i))-48)*Math.pow(10,i));
         }
 
+        return nbFinal;
+
+    }
+
+    public static float toFloat(String string) {
+
+        float nbFinal = 0;
+        for(int i = 0; i < string.length(); i++){
+            nbFinal = (int)(nbFinal + (string.charAt(i)-48)*Math.pow(10,-i));
+        }
         return nbFinal;
 
     }
