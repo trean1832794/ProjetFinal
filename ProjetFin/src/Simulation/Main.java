@@ -64,19 +64,22 @@ public class Main {
         if (root !=null) {
 
             //leger
-            for (int i = 0; i < toInt(root.getFirstChild().getFirstChild().getNodeValue()); i++) {
+            NodeList liste = root.getFirstChild().getChildNodes();
+            System.out.println(root.getChildNodes().item(1).getChildNodes().item(0).getFirstChild().getTextContent());
+            for (int i = 0; i < toInt(root.getFirstChild().getFirstChild().getFirstChild().getTextContent()); i++) {
 
                 vaisseaux.add(new VaisseauLeger());
 
             }
             //normal
-            for (int i = 0; i < toInt(root.getFirstChild().getNextSibling().getFirstChild().getNodeValue()); i++) {
+            for (int i = 0; i < toInt(root.getFirstChild().getFirstChild().getNextSibling().getFirstChild().getTextContent()); i++) {
 
                 vaisseaux.add(new VaisseauNormal());
 
             }
 
-            for (int i = 0; i < toInt(root.getLastChild().getFirstChild().getNodeValue()); i++) {
+            //lourd
+            for (int i = 0; i < toInt(root.getFirstChild().getLastChild().getFirstChild().getTextContent()); i++) {
 
                 vaisseaux.add(new VaisseauLeger());
 
@@ -85,7 +88,7 @@ public class Main {
             //planètes
             for(int i = 0; i < root.getChildNodes().item(1).getChildNodes().getLength(); i++) {
 
-                float[] chanceDechet = parsePlanete(root.getChildNodes().item(1).getChildNodes().item(i).getFirstChild().getNodeValue());
+                float[] chanceDechet = parsePlanete(root.getChildNodes().item(1).getChildNodes().item(i).getFirstChild().getTextContent());
                 planetes.add(new Planete(chanceDechet));
 
             }
@@ -94,12 +97,12 @@ public class Main {
             for (int i = 0; i < root.getChildNodes().item(2).getChildNodes().getLength(); i++) {
 
                 Node directory = root.getChildNodes().item(2).getChildNodes().item(i);
-                Dechet dechet = new Dechet(directory.getChildNodes().item(0).getNodeValue(),toFloat((directory.getChildNodes().item(1).getNodeValue())),toFloat((directory.getChildNodes().item(2).getNodeValue())),i);
+                Dechet dechet = new Dechet(directory.getChildNodes().item(0).getTextContent(),toFloat((directory.getChildNodes().item(1).getTextContent())),toFloat((directory.getChildNodes().item(2).getTextContent())),i);
 
             }
 
             //centres de tri
-            int nbCentreTri = toInt(root.getLastChild().getFirstChild().getNodeValue());
+            int nbCentreTri = toInt(root.getLastChild().getFirstChild().getTextContent());
             if (nbCentreTri > 0) {
 
                 centresDeTris = new CentreDeTri[nbCentreTri];
@@ -153,14 +156,16 @@ public class Main {
     }
 
     public static void exceptionPilePleine()throws MaterialFullException {
-        int[] nbDechets = new int[5];
+        int[] nbDechets = new int[dechets.size()];
 
         for (CentreDeTri centre : centresDeTris){
-            nbDechets[0] += centre.getPlutonium().size();
-            nbDechets[1] += centre.getThulium().size();
-            nbDechets[2] += centre.getGadolinium().size();
-            nbDechets[3] += centre.getTerbium().size();
-            nbDechets[4] += centre.getNeptunium().size();
+
+            for (int i = 0; i < dechets.size(); i++) {
+
+                nbDechets[i] += centre.getPilesDechets().get(i).size();
+
+            }
+
         }
 
         for(int nb : nbDechets){
@@ -245,8 +250,12 @@ public class Main {
     public static float toFloat(String string) {
 
         float nbFinal = 0;
-        for(int i = 0; i < string.length(); i++){
-            nbFinal = (int)(nbFinal + (string.charAt(i)-48)*Math.pow(10,-i));
+        String nb = ""+string.split(",")[0] + string.split(",")[1];
+        int j = 0;
+        for(int i = string.split(",")[0].length() -1; i >= string.split(",")[0].length()-nb.length(); i--){
+
+            nbFinal = (float)(nbFinal + (nb.charAt(j)-48)*Math.pow(10,i));
+            j++;
         }
         return nbFinal;
 
@@ -257,11 +266,9 @@ public class Main {
         String[] chanceDechet = string.split(";");
         float[] chanceDechetFloat = new float[chanceDechet.length];
         for(int i = 0; i < chanceDechet.length; i++) {
-            float nbFinal = 0;
-            for(int j = 0; j < chanceDechet[i].length(); j++){
-                nbFinal = (int)(nbFinal + (chanceDechet[j].charAt(j)-48)*Math.pow(10,-j));
-            }
-            chanceDechetFloat[i] = nbFinal;
+
+            System.out.println(toFloat(chanceDechet[i]));
+            chanceDechetFloat[i] = toFloat(chanceDechet[i]);
 
         }
 

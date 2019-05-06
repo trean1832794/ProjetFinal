@@ -18,11 +18,6 @@ public class CentreDeTri {
     private CentreDeTri previousCentre;
     private Queue<Vaisseau> vaisseauxAttente = new LinkedList<>();
     private ArrayList<Stack<Dechet>> pilesDechets = new ArrayList<>();
-    private Stack<Dechet> plutonium = new Stack<Dechet>();
-    private Stack<Dechet> thulium = new Stack<Dechet>();
-    private Stack<Dechet> gadolinium = new Stack<Dechet>();
-    private Stack<Dechet> terbium = new Stack<Dechet>();
-    private Stack<Dechet> neptunium = new Stack<Dechet>();
 
     public CentreDeTri (int maxAttente,ArrayList<Dechet> dechets){
         this.maxAttente = maxAttente;
@@ -333,11 +328,13 @@ public class CentreDeTri {
 
     public void afficherEtat(){
         System.out.println("Nombre de vaisseau(x) en attente : "+vaisseauxAttente.size());
-        System.out.println("Quantité de plutonium : "+plutonium.size());
-        System.out.println("Quantité de thulium : "+thulium.size());
-        System.out.println("Quantité de gadolium : "+gadolinium.size());
-        System.out.println("Quantité de terbium : "+terbium.size());
-        System.out.println("Quantité de neptunium : "+neptunium.size());
+
+        for(int i = 0; i < pilesDechets.size(); i++) {
+
+            System.out.println("Quantité de " + Main.dechets.get(i).getNom() + " : " + pilesDechets.get(i).size());
+
+        }
+
     }
 
     public void decharge(Stack<Dechet> pilePleine){
@@ -387,44 +384,8 @@ public class CentreDeTri {
         this.previousCentre = previousCentre;
     }
 
-    public Stack<Dechet> getPlutonium() {
-        return plutonium;
-    }
-
-    public void setPlutonium(Stack<Dechet> plutonium) {
-        this.plutonium = plutonium;
-    }
-
-    public Stack<Dechet> getThulium() {
-        return thulium;
-    }
-
-    public void setThulium(Stack<Dechet> thulium) {
-        this.thulium = thulium;
-    }
-
-    public Stack<Dechet> getGadolinium() {
-        return gadolinium;
-    }
-
-    public void setGadolinium(Stack<Dechet> gadolinium) {
-        this.gadolinium = gadolinium;
-    }
-
-    public Stack<Dechet> getTerbium() {
-        return terbium;
-    }
-
-    public void setTerbium(Stack<Dechet> terbium) {
-        this.terbium = terbium;
-    }
-
-    public Stack<Dechet> getNeptunium() {
-        return neptunium;
-    }
-
-    public void setNeptunium(Stack<Dechet> neptunium) {
-        this.neptunium = neptunium;
+    public ArrayList<Stack<Dechet>> getPilesDechets() {
+        return pilesDechets;
     }
 
     public int getMaxAttente() {

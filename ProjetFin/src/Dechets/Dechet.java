@@ -22,11 +22,11 @@ public class Dechet implements Comparable<Dechet> {
 
     public int compareTo (Dechet o) {
 
-            if (masseVolumique - o.masseVolumique == 0) {
+            if (masseVolumique - o.getMasseVolumique() == 0.0f) {
 
                 return 0;
 
-            } else if (masseVolumique-o.masseVolumique < 0) {
+            } else if (masseVolumique-o.getMasseVolumique() < 0.0f) {
 
                 return -1;
 

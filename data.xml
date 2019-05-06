@@ -13,15 +13,41 @@
     </vaisseaux>
     <planetes>
         <planeteexemple>
-            <chancedechet>0.5;1.0</chancedechet>
+            <chancedechet>0,20;0,40;0,60;0,80;1,0</chancedechet>
         </planeteexemple>
+        <planetedesert>
+            <chancedechet>0,15;0,30;0,60;0,90;1,0</chancedechet>
+        </planetedesert>
+        <planetelune>
+            <chancedechet>0,10;0,30;0,40;0,70;1,0</chancedechet>
+        </planetelune>
     </planetes>
     <dechets>
         <dechetexemple>
             <nom>dechetexemple</nom>
-            <massevolumique>6.9</massevolumique>
-            <pourcentagerecyclage>0.69</pourcentagerecyclage>
+            <massevolumique>6,9</massevolumique>
+            <pourcentagerecyclage>0,69</pourcentagerecyclage>
         </dechetexemple>
+        <charbon>
+            <nom>charbon</nom>
+            <massevolumique>5,3</massevolumique>
+            <pourcentagerecyclage>0,38</pourcentagerecyclage>
+        </charbon>
+        <fer>
+            <nom>fer</nom>
+            <massevolumique>9,7</massevolumique>
+            <pourcentagerecyclage>0,50</pourcentagerecyclage>
+        </fer>
+        <or>
+            <nom>or</nom>
+            <massevolumique>97,5</massevolumique>
+            <pourcentagerecyclage>0,21</pourcentagerecyclage>
+        </or>
+        <diamant>
+            <nom>diamant</nom>
+            <massevolumique>150,0</massevolumique>
+            <pourcentagerecyclage>0,14</pourcentagerecyclage>
+        </diamant>
     </dechets>
     <centresdetri>
         <qty>10</qty>
