@@ -91,6 +91,7 @@ public class Main {
                 float[] chanceDechet = parsePlanete(root.getChildNodes().item(1).getChildNodes().item(i).getFirstChild().getTextContent());
                 planetes.add(new Planete(chanceDechet));
 
+
             }
 
             //déchets
@@ -98,6 +99,7 @@ public class Main {
 
                 Node directory = root.getChildNodes().item(2).getChildNodes().item(i);
                 Dechet dechet = new Dechet(directory.getChildNodes().item(0).getTextContent(),toFloat((directory.getChildNodes().item(1).getTextContent())),toFloat((directory.getChildNodes().item(2).getTextContent())),i);
+                dechets.add(dechet);
 
             }
 
