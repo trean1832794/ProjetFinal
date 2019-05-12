@@ -1,6 +1,8 @@
 package Exceptions;
 
-public class WaitingFullException extends Exception {
+import java.io.Serializable;
+
+public class WaitingFullException extends Exception implements Serializable {
 
     public String toString() {
 

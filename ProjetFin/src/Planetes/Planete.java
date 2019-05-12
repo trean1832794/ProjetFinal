@@ -4,7 +4,9 @@ import Dechets.*;
 import Exceptions.WaitingFullException;
 import Simulation.Main;
 
-public class Planete {
+import java.io.Serializable;
+
+public class Planete implements Serializable {
 
 
     private float[] chancesDechets; //0 = plutonium 1 = thulium 2 = gadolium 3 = terbium 4 = neptunium

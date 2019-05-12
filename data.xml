@@ -2,24 +2,24 @@
 <simulation>
     <vaisseaux>
         <vaisseauleger>
-            <qty>10</qty>
+            <qty>20</qty>
         </vaisseauleger>
         <vaisseaunormal>
-            <qty>5</qty>
+            <qty>15</qty>
         </vaisseaunormal>
         <vaisseaulourd>
-            <qty>10</qty>
+            <qty>15</qty>
         </vaisseaulourd>
     </vaisseaux>
     <planetes>
         <planeteexemple>
-            <chancedechet>0,20;0,40;0,60;0,80;1,0</chancedechet>
+            <chancedechet>0,20;0,40;0,60;0,80;0,90;1,0</chancedechet>
         </planeteexemple>
         <planetedesert>
-            <chancedechet>0,15;0,30;0,60;0,90;1,0</chancedechet>
+            <chancedechet>0,15;0,30;0,60;0,70;0,90;1,0</chancedechet>
         </planetedesert>
         <planetelune>
-            <chancedechet>0,10;0,30;0,40;0,70;1,0</chancedechet>
+            <chancedechet>0,10;0,30;0,40;0,50;0,70;1,0</chancedechet>
         </planetelune>
     </planetes>
     <dechets>
@@ -48,6 +48,11 @@
             <massevolumique>150,0</massevolumique>
             <pourcentagerecyclage>0,14</pourcentagerecyclage>
         </diamant>
+        <redstone>
+            <nom>redstone</nom>
+            <massevolumique>55,0</massevolumique>
+            <pourcentagerecyclace>0,10</pourcentagerecyclace>
+        </redstone>
     </dechets>
     <centresdetri>
         <qty>10</qty>

@@ -1,6 +1,8 @@
 package Dechets;
 
-public class Dechet implements Comparable<Dechet> {
+import java.io.Serializable;
+
+public class Dechet implements Comparable<Dechet>, Serializable {
 
         private String nom;
         private int id;

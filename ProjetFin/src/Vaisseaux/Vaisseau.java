@@ -4,11 +4,12 @@ import Dechets.*;
 import CentresDeTri.CentreDeTri;
 import Planetes.Planete;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
 
-public abstract class Vaisseau {
+public abstract class Vaisseau implements Serializable {
     private ArrayList<Dechet> dechets = new ArrayList<>();
     private int limiteDechets;
     private CentreDeTri emplacement;

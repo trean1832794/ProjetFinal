@@ -17,9 +17,12 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 // ProjetFinal Antoine Tremblay-Simard & Thomas Bergeron
@@ -65,7 +68,6 @@ public class Main {
 
             //leger
             NodeList liste = root.getFirstChild().getChildNodes();
-            System.out.println(root.getChildNodes().item(1).getChildNodes().item(0).getFirstChild().getTextContent());
             for (int i = 0; i < toInt(root.getFirstChild().getFirstChild().getFirstChild().getTextContent()); i++) {
 
                 vaisseaux.add(new VaisseauLeger());
@@ -200,7 +202,7 @@ public class Main {
 
     public static void finSimulation () {
 
-        System.out.println("Fin de la simulation! Voici les stats finales");
+        System.out.println("Voici les résultats de la simulation : ");
 
         for (int i = 0; i < centresDeTris.length; i++) {
 
@@ -208,6 +210,30 @@ public class Main {
             centresDeTris[i].afficherEtat();
 
         }
+
+        //fin de la simulation, on enregistre les données
+        try {
+
+            DateFormat df = new SimpleDateFormat("yyMMddHHmmss");
+            Date date = new Date();
+            File dir = new File("Simulation_20" + df.format(date) + ".dat");
+
+            ObjectOutputStream sortie = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(dir)));
+
+            sortie.writeObject(centresDeTris);
+            sortie.writeObject(vaisseaux);
+            sortie.writeObject(planetes);
+
+        } catch (FileNotFoundException ex) {
+
+            System.out.println("Erreur, Fichier introuvable : " + ex.toString());
+
+        } catch (IOException ex) {
+
+            System.out.println("Erreur lors de la sauvegarde des données : " + ex.toString());
+
+        }
+
 
     }
 
@@ -269,7 +295,6 @@ public class Main {
         float[] chanceDechetFloat = new float[chanceDechet.length];
         for(int i = 0; i < chanceDechet.length; i++) {
 
-            System.out.println(toFloat(chanceDechet[i]));
             chanceDechetFloat[i] = toFloat(chanceDechet[i]);
 
         }

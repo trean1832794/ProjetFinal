@@ -4,6 +4,7 @@ import Exceptions.MaterialFullException;
 import Exceptions.WaitingFullException;
 import Vaisseaux.Vaisseau;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -11,7 +12,7 @@ import java.util.Stack;
 import Dechets.*;
 import Simulation.*;
 
-public class CentreDeTri {
+public class CentreDeTri implements Serializable {
     private int limitePiles = 50;
     private int maxAttente;
     private CentreDeTri nextCentre;

@@ -1,6 +1,8 @@
 package Exceptions;
 
-public class MaterialFullException extends Exception {
+import java.io.Serializable;
+
+public class MaterialFullException extends Exception implements Serializable {
 
     public String toString() {
 
